@@ -1,4 +1,4 @@
-#include "TicTacToe.h"
+#include "NIM.h"
 #include <WinSock2.h>
 #include <iostream>
 
