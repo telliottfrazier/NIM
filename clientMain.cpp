@@ -23,7 +23,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 		std::cerr << "No interface found that supports broadcasting." << std::endl;
 		return -1;
 	}
-	int numServers = getServers(s, broadcastAddress, TicTacToe_UDPPORT, serverArray);
+	int numServers = getServers(s, broadcastAddress, NIM_UDPPORT, serverArray);
 
 	if (numServers == 0) {
 		std::cout << std::endl << "Sorry.  No TicTacToe servers were found.  Try again later." << std::endl << std::endl;
@@ -64,7 +64,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 
 			// Append playerName to the TicTacToe_CHALLENGE string & send a challenge to host:port
 			char buffer[MAX_SEND_BUF];
-			strcpy_s(buffer,TicTacToe_CHALLENGE);
+			strcpy_s(buffer,NIM_CHALLENGE);
 			strcat_s(buffer,playerName.c_str());
 			int len = UDP_send(s, buffer, strlen(buffer)+1,(char*)host.c_str(), (char*)port.c_str());
 
