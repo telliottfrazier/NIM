@@ -69,7 +69,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 			int len = UDP_send(s, buffer, strlen(buffer)+1,(char*)host.c_str(), (char*)port.c_str());
 
 			// Play the game.  You are the 'X' player
-			int winner = playTicTacToe(s, serverName, host, port, X_PLAYER);
+			int winner = playTicTacToe(s, serverName, host, port, PLAYER1);
 		}
 	}
 

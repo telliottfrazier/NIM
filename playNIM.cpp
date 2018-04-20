@@ -14,9 +14,9 @@ void initializeBoard( char board[10] )
 
 void updateBoard( char board[10], int move, int Player)
 {
-	if (Player == X_PLAYER) {
+	if (Player == PLAYER1) {
 		board[move] = 'X';
-	} else if (Player == O_PLAYER) {
+	} else if (Player == PLAYER2) {
 		board[move] = 'O';
 	} else
 		std::cout << "Problem with updateBoard function!" << std::endl;
@@ -85,7 +85,7 @@ int getMove(char board[10], int Player)
 	char move_str[80];
 
 	std::cout << "Where do you want to place your ";
-	char mark = (Player == X_PLAYER) ? 'X' : 'O';
+	char mark = (Player == PLAYER1) ? 'X' : 'O';
 	std::cout << mark << "? " << std::endl;
 
 	do {
@@ -108,13 +108,13 @@ int playTicTacToe(SOCKET s, std::string serverName, std::string remoteIP, std::s
 	int move;
 	bool myMove;
 
-	if (localPlayer == X_PLAYER) {
+	if (localPlayer == PLAYER1) {
 		std::cout << "Playing as X" << std::endl;
-		opponent = O_PLAYER;
+		opponent = PLAYER2;
 		myMove = true;
 	} else {
 		std::cout << "Playing as O" << std::endl;
-		opponent = X_PLAYER;
+		opponent = PLAYER1;
 		myMove = false;
 	}
 
