@@ -64,10 +64,7 @@ void displayBoard(int *setup) {
 	cout << "--------------------------------------------------------------------------------" << endl;
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 4ca47984874193af2f968f3e0420f845a6a888c0
 //void updateBoard( char board[10], int move, int Player)
 //{
 //	if (Player == PLAYER1) {
