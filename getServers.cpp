@@ -37,7 +37,8 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 	// As you read datagrams, if they start with the prefix: NIM_NAME, parse out the server's name
 	// and add the name, host address and port number to serverArray[].  Don't forget to increment numServers.
 	int status = wait(s,2,0);
-	if (status > 0) {
+	if (status > 0) 
+	{
 		int len = 1;
 		char recvBuffer[MAX_RECV_BUF + 1];
 		char host[v4AddressSize];
@@ -53,34 +54,41 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 		strcat(NIM_CHALLENGE, challengeName);
 		int numBytesSent = UDP_send(s, challenge, strlen(challenge) + 1, broadcastAddress, NIM_UDPPORT);
 
+		int status2 = wait(s, 15, 0);
+
 		int numBytesRecv = UDP_recv(s, recvBuffer, sizeof(recvBuffer) - 1, host, port);
 
-		if(strcmp(recvBuffer, "Yes") != 0){
+		if (strcmp(recvBuffer, "Yes") != 0) 
+		{
 
-		string name;
-		while (status > 0 && len > 0) {
-			/****
-			Task 4b: Inside this while loop, extract a response, which should be a C-string that looks like "Name=some server's name".
-			If the response doesn't begin with the characters, "Name=", ignore it.
-			If it does begin with the characters, "Name=", parse the actual name that follows and
-			(i) assign that name to the array of structs, serverArray[numServers].name
-			(ii) assign the IP Address from which the response originated to serverArray[numServers].host
-			(iii) assign the server's port number to serverArray[numServers].port
-			(iv) increment numServers
-			****/
-
-			string recvStr(recvBuffer);
-			if (recvStr.substr(0, 5) == "Name=")
+			string name;
+			while (status > 0 && len > 0)
 			{
-				name = recvStr.substr(5);
-				serverArray[numServers].name = name;
-				serverArray[numServers].host = host;
-				serverArray[numServers].port = port;
-				numServers++;
-			}
+				/****
+				Task 4b: Inside this while loop, extract a response, which should be a C-string that looks like "Name=some server's name".
+				If the response doesn't begin with the characters, "Name=", ignore it.
+				If it does begin with the characters, "Name=", parse the actual name that follows and
+				(i) assign that name to the array of structs, serverArray[numServers].name
+				(ii) assign the IP Address from which the response originated to serverArray[numServers].host
+				(iii) assign the server's port number to serverArray[numServers].port
+				(iv) increment numServers
+				****/
 
+				string recvStr(recvBuffer);
+				if (recvStr.substr(0, 5) == "Name=")
+				{
+					name = recvStr.substr(5);
+					serverArray[numServers].name = name;
+					serverArray[numServers].host = host;
+					serverArray[numServers].port = port;
+					numServers++;
+				}
+			}
+		}
+		else
+		{
 			// Now, we'll see if there is another response.
-			status = wait(s,2,0);
+			status = wait(s, 2, 0);
 			if (status > 0)
 				len = UDP_recv(s, recvBuffer, MAX_RECV_BUF, host, port);
 		}
