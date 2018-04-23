@@ -8,7 +8,11 @@ using namespace std;
 // getServers.cpp
 //  Given a socket, a broadcast address and a port number, this function returns the number
 //  of NIM servers as well as an array of structs.  Each struct contains the name, IP_Address and 
+<<<<<<< HEAD
 //  port number of a remote TicTacToe server.
+=======
+//  port number of a remote NIM server.
+>>>>>>> 335dce6a42d38020b04e7faf71277ab72bb0c76c
 
 //	IN parameters:
 //	SOCKET s				= Allocated UDP socket handle that can be used for communcations
@@ -17,14 +21,14 @@ using namespace std;
 
 //	OUT parameters:
 //	ServerStruct serverArray[]	= An array that contains the structs.  The members of each struct
-//							  contain the name, IP Address and port number of a remote TicTacToe server.
+//							  contain the name, IP Address and port number of a remote NIM server.
 //	numServers				= Number of elements in serverArray[]
 
 //	Function return value	= Number of remote NIM servers (size of serverArray[])
 
 int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStruct serverArray[])
 {
-	// This function returns the number of TicTacToe servers that may be found within the current Broadcast Domain.
+	// This function returns the number of NIM servers that may be found within the current Broadcast Domain.
 	// The last parameter, serverArray[], will contain all of the servers' names, IP addresses and port numbers.
 
 	int numServers = 0;
@@ -64,9 +68,15 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 		{
 			int numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);		// Send "Great!"
 
+			int numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);
+
 			string name;
 			while (status2 > 0 && len > 0)
 			{
+<<<<<<< HEAD
+=======
+
+>>>>>>> 335dce6a42d38020b04e7faf71277ab72bb0c76c
 				string recvStr(recvBuffer);
 				if (recvStr.substr(0, 5) == "Name=")
 				{
