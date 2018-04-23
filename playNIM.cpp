@@ -7,9 +7,17 @@
 #include <iostream>
 #include <string>
 
-void initializeBoard( char board[10] )
+void initializeBoard(char board[20], int localPlayer)
 {
-
+	if (localPlayer == PLAYER1)
+	{
+		//Get board from opponent.
+	}
+	else
+	{
+		//Create and send a board.
+		//3 to 9 piles with 1 to 20 rocks per pile.
+	}
 }
 
 void updateBoard( char board[10], int move, int Player)
@@ -98,27 +106,27 @@ int getMove(char board[10], int Player)
 	return move;
 }
 
-int playTicTacToe(SOCKET s, std::string serverName, std::string remoteIP, std::string remotePort, int localPlayer)
+int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string remotePort, int localPlayer)
 {
 	// This function plays the game and returns the value: winner.  This value 
 	// will be one of the following values: noWinner, xWinner, oWinner, TIE, ABORT
 	int winner = noWinner;
-	char board[10];
+	char board[20];
 	int opponent;
 	int move;
 	bool myMove;
 
 	if (localPlayer == PLAYER1) {
-		std::cout << "Playing as X" << std::endl;
+		std::cout << "Playing first" << std::endl;
 		opponent = PLAYER2;
 		myMove = true;
 	} else {
-		std::cout << "Playing as O" << std::endl;
+		std::cout << "Playing second" << std::endl;
 		opponent = PLAYER1;
 		myMove = false;
 	}
 
-	initializeBoard(board);
+	initializeBoard(board, localPlayer);
 	displayBoard(board);
 
 	while (winner == noWinner) {
