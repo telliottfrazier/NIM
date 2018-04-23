@@ -35,9 +35,7 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 	int numBytesSent = UDP_send(s, NIM_QUERY, strlen(NIM_QUERY) + 1, broadcastAddress, NIM_UDPPORT);
 
 
-	// Receive incoming UDP datagrams (with a maximum of 2 second wait before each UDP_recv() function call
-	// As you read datagrams, if they start with the prefix: NIM_NAME, parse out the server's name
-	// and add the name, host address and port number to serverArray[].  Don't forget to increment numServers.
+	
 	int status = wait(s,2,0);
 	if (status > 0) 
 	{
