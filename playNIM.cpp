@@ -7,12 +7,12 @@
 #include <iostream>
 #include <string>
 
-<<<<<<< HEAD
+
 
 using std::cout;
 using std::cin;
 using std::endl;
-=======
+
 void initializeBoard(char board[20], int localPlayer)
 {
 	if (localPlayer == PLAYER1)
@@ -25,7 +25,7 @@ void initializeBoard(char board[20], int localPlayer)
 		//3 to 9 piles with 1 to 20 rocks per pile.
 	}
 }
->>>>>>> 00b9aa50771bde791bc9f3f25fc8753514a799f6
+
 
 int board[10][20];
 void initializeBoard(int board[][20])
