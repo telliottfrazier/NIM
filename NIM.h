@@ -5,11 +5,9 @@
 #define NIM_QUERY	"Who?"
 #define NIM_NAME	"Name="
 #define NIM_CHALLENGE	"Player="
-<<<<<<< HEAD
 #define NIM_ACCEPT	"Great!"
-=======
 #define NIM_ACCEPT "Great!"
->>>>>>> 335dce6a42d38020b04e7faf71277ab72bb0c76c
+
 
 static char NIM_UDPPORT[] = "29333";
 
