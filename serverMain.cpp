@@ -35,8 +35,8 @@ int serverMain(int argc, char *argv[], std::string playerName)
 				std::cout << std::endl << "You have been challenged by " << startOfName+strlen(NIM_CHALLENGE) << std::endl;
 			}
 			
-			// Play the game.  You are the 'O' player
-			int winner = playTicTacToe(s, (char*) playerName.c_str(), (char*)host.c_str(), (char*)port.c_str(), PLAYER2);
+			// Play the game.  You are the second player
+			int winner = playNim(s, (char*) playerName.c_str(), (char*)host.c_str(), (char*)port.c_str(), PLAYER2);
 			finished = true;
 		}
 

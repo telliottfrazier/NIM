@@ -26,10 +26,10 @@ int clientMain(int argc, char *argv[], std::string playerName)
 	int numServers = getServers(s, broadcastAddress, NIM_UDPPORT, serverArray);
 
 	if (numServers == 0) {
-		std::cout << std::endl << "Sorry.  No TicTacToe servers were found.  Try again later." << std::endl << std::endl;
+		std::cout << std::endl << "Sorry.  No NIM servers were found.  Try again later." << std::endl << std::endl;
 	} else {
 		// Display the list of servers found
-		std::cout << std::endl << "Found TicTacToe server";
+		std::cout << std::endl << "Found NIM server";
 		if (numServers == 1) {
 			std::cout << ":" << "  " << serverArray[0].name << std::endl;
 		} else {
@@ -68,8 +68,8 @@ int clientMain(int argc, char *argv[], std::string playerName)
 			strcat_s(buffer,playerName.c_str());
 			int len = UDP_send(s, buffer, strlen(buffer)+1,(char*)host.c_str(), (char*)port.c_str());
 
-			// Play the game.  You are the 'X' player
-			int winner = playTicTacToe(s, serverName, host, port, PLAYER1);
+			// Play the game.  You are the first player
+			int winner = playNim(s, serverName, host, port, PLAYER1);
 		}
 	}
 

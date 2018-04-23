@@ -26,15 +26,12 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 
 	int numServers = 0;
 
-	// Send TicTacToe_QUERY to broadcastAddress using broadcastPort
-/****			
-Task 3: Add code here that will send the TicTacToe_QUERY message to the broadcastAddress using the broadcastPort (see function header).
-****/
-	int numBytesSent = UDP_send(s, NIM_QUERY, MAX_SEND_BUF, broadcastAddress, NIM_UDPPORT);
+	//send 'who?' to any address receiving
+	int numBytesSent = UDP_send(s, NIM_QUERY, strlen(NIM_QUERY) + 1, broadcastAddress, NIM_UDPPORT);
 
 
 	// Receive incoming UDP datagrams (with a maximum of 2 second wait before each UDP_recv() function call
-	// As you read datagrams, if they start with the prefix: TicTacToe_NAME, parse out the server's name
+	// As you read datagrams, if they start with the prefix: NIM_NAME, parse out the server's name
 	// and add the name, host address and port number to serverArray[].  Don't forget to increment numServers.
 	int status = wait(s,2,0);
 	if (status > 0) {
@@ -43,10 +40,19 @@ Task 3: Add code here that will send the TicTacToe_QUERY message to the broadcas
 		char host[v4AddressSize];
 		char port[portNumberSize];
 
-/****			
-Task 4a: Add code here that will receive a response to the broadcast message
-****/		
-		int numBytesRecv = UDP_recv(s, recvBuffer, MAX_RECV_BUF, host, port);
+		//receive a broadcast message	
+		int numBytesRecv = UDP_recv(s, recvBuffer, sizeof(recvBuffer) - 1, host, port);
+
+		char challengeName[MAX_RECV_BUF - 1] = "";
+		std::cout << "What is your name?";
+		std::cin >> challengeName;
+		char* challenge = "";
+		strcat(challenge, challengeName);
+		int numBytesSent = UDP_send(s, challenge, strlen(challenge) + 1, broadcastAddress, NIM_UDPPORT);
+
+		int numBytesRecv = UDP_recv(s, recvBuffer, sizeof(recvBuffer) - 1, host, port);
+
+		if(strcmp(recvBuffer, "Yes") != 0)
 
 
 		while (status > 0 && len > 0) {
