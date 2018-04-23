@@ -1,6 +1,6 @@
-// TicTacToe.cpp
+// NIM.cpp
 
-// This program plays Tic-Tac-Toe with other computers across the network using the UDP protocol.
+// This program plays NIM with other computers across the network using the UDP protocol.
 
 #include "NIM.h"
 #include <iostream>
