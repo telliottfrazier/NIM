@@ -90,17 +90,6 @@ void initializeBoard(int board[][20])
 //		std::cout << "Problem with updateBoard function!" << std::endl;
 //}
 
-void displayBoard( char board[10] )
-{
-	std::cout << std::endl;
-	std::cout << board[7] << " | " << board[8] << " | " << board[9] << std::endl;
-	std::cout << "__+___+__" << std::endl;
-	std::cout << board[4] << " | " << board[5] << " | " << board[6] << std::endl;
-	std::cout << "__+___+__" << std::endl;
-	std::cout << board[1] << " | " << board[2] << " | " << board[3] << std::endl;
-	std::cout << std::endl;
-}
-
 //Checks to see if there are no rocks left on the board.
 //If there are no rocks remaining then it returns false,
 //	the game is over, and the last person who moved loses.
