@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <iomanip>
 
 using std::cout;
 using std::cin;
@@ -41,6 +42,27 @@ void initializeBoard(int board[19], int localPlayer)
 
 
 
+void displayBoard(int *setup) {
+	int numOfPiles = setup[0];
+
+
+	cout << "NIM board:" << endl;
+	cout << "--------------------------------------------------------------------------------" << endl;
+
+	for (int i = 0; i < numOfPiles; i++) {
+		std::string row = "";
+
+		row += "Rock Pile #";
+		row += std::to_string(i + 1);
+		row += " ->";
+		for (int j = 0; j < setup[i + 1]; j++) {
+			row += " *";
+		}
+
+		cout << std::setw(60) << std::left << row << "(" << std::setw(2) << setup[i + 1] << ") <- Rock Pile #" << (i + 1) << endl;
+	}
+	cout << "--------------------------------------------------------------------------------" << endl;
+}
 
 int board[10][20];
 void initializeBoard(int board[][20])
