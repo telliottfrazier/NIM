@@ -1,6 +1,9 @@
 #include "NIM.h"
 #include <WinSock2.h>
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 // getServers.cpp
 //  Given a socket, a broadcast address and a port number, this function returns the number
@@ -54,34 +57,26 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 
 		if(strcmp(recvBuffer, "Yes") != 0){
 
+		string name;
 		while (status > 0 && len > 0) {
-/****			
-Task 4b: Inside this while loop, extract a response, which should be a C-string that looks like "Name=some server's name".
-		 If the response doesn't begin with the characters, "Name=", ignore it.
-		 If it does begin with the characters, "Name=", parse the actual name that follows and
-		 (i) assign that name to the array of structs, serverArray[numServers].name
-		 (ii) assign the IP Address from which the response originated to serverArray[numServers].host
-		 (iii) assign the server's port number to serverArray[numServers].port
-		 (iv) increment numServers
-****/
-			char serverName[MAX_RECV_BUF - 1] = "";
-			//strcpy_s(firstFive, 5, recvBuffer);
-			for (int i = 0; i < 5; i++) {
-				serverName[i] = recvBuffer[i];
-			}
+			/****
+			Task 4b: Inside this while loop, extract a response, which should be a C-string that looks like "Name=some server's name".
+			If the response doesn't begin with the characters, "Name=", ignore it.
+			If it does begin with the characters, "Name=", parse the actual name that follows and
+			(i) assign that name to the array of structs, serverArray[numServers].name
+			(ii) assign the IP Address from which the response originated to serverArray[numServers].host
+			(iii) assign the server's port number to serverArray[numServers].port
+			(iv) increment numServers
+			****/
 
-
-			if (_stricmp(serverName, NIM_NAME) == 0) {
-				for (int i = 5; recvBuffer[i] != '\0'; i++) {
-					serverName[i-5] = recvBuffer[i];
-					serverName[i - 4] = '\0';
-				}
-
-				serverArray[numServers].name = serverName;
+			string recvStr(recvBuffer);
+			if (recvStr.substr(0, 5) == "Name=")
+			{
+				name = recvStr.substr(5);
+				serverArray[numServers].name = name;
 				serverArray[numServers].host = host;
 				serverArray[numServers].port = port;
 				numServers++;
-
 			}
 
 			// Now, we'll see if there is another response.
