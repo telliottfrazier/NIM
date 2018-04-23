@@ -46,14 +46,13 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 		char challengeName[MAX_RECV_BUF - 1] = "";
 		std::cout << "What is your name?";
 		std::cin >> challengeName;
-		char* challenge = "";
-		strcat(challenge, challengeName);
+		char *challenge;
+		strcat(NIM_CHALLENGE, challengeName);
 		int numBytesSent = UDP_send(s, challenge, strlen(challenge) + 1, broadcastAddress, NIM_UDPPORT);
 
 		int numBytesRecv = UDP_recv(s, recvBuffer, sizeof(recvBuffer) - 1, host, port);
 
-		if(strcmp(recvBuffer, "Yes") != 0)
-
+		if(strcmp(recvBuffer, "Yes") != 0){
 
 		while (status > 0 && len > 0) {
 /****			
