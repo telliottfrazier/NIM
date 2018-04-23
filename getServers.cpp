@@ -8,11 +8,9 @@ using namespace std;
 // getServers.cpp
 //  Given a socket, a broadcast address and a port number, this function returns the number
 //  of NIM servers as well as an array of structs.  Each struct contains the name, IP_Address and 
-<<<<<<< HEAD
 //  port number of a remote TicTacToe server.
-=======
 //  port number of a remote NIM server.
->>>>>>> 335dce6a42d38020b04e7faf71277ab72bb0c76c
+
 
 //	IN parameters:
 //	SOCKET s				= Allocated UDP socket handle that can be used for communcations
@@ -55,28 +53,22 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 		std::cout << "What is your name?";
 		std::cin >> challengeName;
 		char *challenge;
-		strcat(NIM_CHALLENGE, challengeName);
-		int numBytesSent = UDP_send(s, challenge, strlen(challenge) + 1, host, NIM_UDPPORT);
+		challenge = strcat(NIM_CHALLENGE, challengeName);
+		numBytesSent = UDP_send(s, challenge, strlen(challenge) + 1, host, NIM_UDPPORT);
 
 		int status2 = wait(s, 15, 0);
 
 		char recvBuffer2[MAX_RECV_BUF + 1];
 
-		int numBytesRecv = UDP_recv(s, recvBuffer2, sizeof(recvBuffer2) - 1, host, port);
+		numBytesRecv = UDP_recv(s, recvBuffer2, sizeof(recvBuffer2) - 1, host, port);
 
 		if (strcmp(recvBuffer2, "Yes") == 0) 
 		{
-			int numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);		// Send "Great!"
-
-			int numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);
+			numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);
 
 			string name;
 			while (status2 > 0 && len > 0)
 			{
-<<<<<<< HEAD
-=======
-
->>>>>>> 335dce6a42d38020b04e7faf71277ab72bb0c76c
 				string recvStr(recvBuffer);
 				if (recvStr.substr(0, 5) == "Name=")
 				{
