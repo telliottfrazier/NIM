@@ -64,21 +64,6 @@ void displayBoard(int *setup) {
 	cout << "--------------------------------------------------------------------------------" << endl;
 }
 
-int board[10][20];
-void initializeBoard(int board[][20])
-{
-	cout << "NIM board" << endl;
-	cout << "-------------------------------------------------------------------------------" << endl;
-	for (int i = 0; i < board[i][0]; i++) {
-		cout << "Rock Pile #" << i << " ->";
-
-	}
-
-}
-//void initializeBoard( char board[10] )
-//{
-//
-//}
 
 //void updateBoard( char board[10], int move, int Player)
 //{
