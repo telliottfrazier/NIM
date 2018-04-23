@@ -26,10 +26,10 @@ int clientMain(int argc, char *argv[], std::string playerName)
 	int numServers = getServers(s, broadcastAddress, NIM_UDPPORT, serverArray);
 
 	if (numServers == 0) {
-		std::cout << std::endl << "Sorry.  No TicTacToe servers were found.  Try again later." << std::endl << std::endl;
+		std::cout << std::endl << "Sorry.  No NIM servers were found.  Try again later." << std::endl << std::endl;
 	} else {
 		// Display the list of servers found
-		std::cout << std::endl << "Found TicTacToe server";
+		std::cout << std::endl << "Found NIM server";
 		if (numServers == 1) {
 			std::cout << ":" << "  " << serverArray[0].name << std::endl;
 		} else {
