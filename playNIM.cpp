@@ -1,6 +1,6 @@
-// playTicTacToe.cpp
+// playNIM.cpp
 // This set of functions are used to actually play the game.
-// Play starts with the function: playTicTacToe() which is defined below
+// Play starts with the function: playNIM() which is defined below
 
 #include "NIM.h"
 #include <WinSock2.h>

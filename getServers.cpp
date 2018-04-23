@@ -7,8 +7,8 @@ using namespace std;
 
 // getServers.cpp
 //  Given a socket, a broadcast address and a port number, this function returns the number
-//  of TicTacToe servers as well as an array of structs.  Each struct contains the name, IP_Address and 
-//  port number of a remote TicTacToe server.
+//  of NIM servers as well as an array of structs.  Each struct contains the name, IP_Address and 
+//  port number of a remote NIM server.
 
 //	IN parameters:
 //	SOCKET s				= Allocated UDP socket handle that can be used for communcations
@@ -17,14 +17,14 @@ using namespace std;
 
 //	OUT parameters:
 //	ServerStruct serverArray[]	= An array that contains the structs.  The members of each struct
-//							  contain the name, IP Address and port number of a remote TicTacToe server.
+//							  contain the name, IP Address and port number of a remote NIM server.
 //	numServers				= Number of elements in serverArray[]
 
-//	Function return value	= Number of remote TicTacToe servers (size of serverArray[])
+//	Function return value	= Number of remote NIM servers (size of serverArray[])
 
 int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStruct serverArray[])
 {
-	// This function returns the number of TicTacToe servers that may be found within the current Broadcast Domain.
+	// This function returns the number of NIM servers that may be found within the current Broadcast Domain.
 	// The last parameter, serverArray[], will contain all of the servers' names, IP addresses and port numbers.
 
 	int numServers = 0;

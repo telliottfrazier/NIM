@@ -13,7 +13,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 
 	SOCKET s = connectsock("","","udp");	// Create a socket  (Don't need to designate a host or port for UDP)
 
-	// Find all TicTacToe servers on our subnet
+	// Find all NIM servers on our subnet
 	std::cout << std::endl << "Looking for NIM servers ... " << std::endl;
 
 	char broadcastAddress[v4AddressSize];
@@ -62,7 +62,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 			host = serverArray[answer-1].host;
 			port = serverArray[answer-1].port;
 
-			// Append playerName to the TicTacToe_CHALLENGE string & send a challenge to host:port
+			// Append playerName to the NIM_CHALLENGE string & send a challenge to host:port
 			char buffer[MAX_SEND_BUF];
 			strcpy_s(buffer,NIM_CHALLENGE);
 			strcat_s(buffer,playerName.c_str());
