@@ -35,7 +35,7 @@ int UDP_send(SOCKET, char*, int, const char*, const char*);
 int wait(SOCKET, int, int);
 char* timestamp();
 int getServers(SOCKET, char*, char*, ServerStruct[]);
-int playNim(SOCKET, std::string, std::string, std::string, int);
+bool playNim(SOCKET, std::string, std::string, std::string, int);
 int serverMain(int, char *argv[], std::string);
 int clientMain(int, char *argv[], std::string);
 int getIPAddressInfo(char*, char*);

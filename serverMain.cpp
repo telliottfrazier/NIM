@@ -36,7 +36,7 @@ int serverMain(int argc, char *argv[], std::string playerName)
 			}
 			
 			// Play the game.  You are the second player
-			int winner = playNim(s, (char*) playerName.c_str(), (char*)host.c_str(), (char*)port.c_str(), PLAYER2);
+			bool winner = playNim(s, (char*) playerName.c_str(), (char*)host.c_str(), (char*)port.c_str(), PLAYER2);
 			finished = true;
 		}
 
