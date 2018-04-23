@@ -6,15 +6,22 @@
 #include <WinSock2.h>
 #include <iostream>
 #include <string>
-
-
+#include <random>
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::random_device;
+using std::default_random_engine;
+using std::uniform_int_distribution;
 
-void initializeBoard(char board[20], int localPlayer)
+void initializeBoard(int board[19], int localPlayer)
 {
+	random_device rd;
+	default_random_engine engine(rd());
+	uniform_int_distribution<int> piles(3, 9);
+	uniform_int_distribution<int> rocks(1, 20);
+
 	if (localPlayer == PLAYER1)
 	{
 		//Get board from opponent.
@@ -23,6 +30,12 @@ void initializeBoard(char board[20], int localPlayer)
 	{
 		//Create and send a board.
 		//3 to 9 piles with 1 to 20 rocks per pile.
+		board[0] = piles(engine);
+
+		for (int i = 1; i <= board[0]; ++i)
+		{
+			board[i] = rocks(engine);
+		}
 	}
 }
 
@@ -64,7 +77,6 @@ void displayBoard( char board[10] )
 	std::cout << std::endl;
 }
 
-<<<<<<< HEAD
 //
 //int check4Win(char board[10])
 //{
@@ -216,7 +228,7 @@ void displayBoard( char board[10] )
 //
 //	return winner;
 //}
-=======
+
 int check4Win(char board[10])
 {
 	int winner = noWinner;
@@ -367,4 +379,3 @@ Task 2: (i) Insert code inside this IF statement that will accept a null-termina
 
 	return winner;
 }
->>>>>>> 00b9aa50771bde791bc9f3f25fc8753514a799f6
