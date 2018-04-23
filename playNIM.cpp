@@ -16,6 +16,12 @@ using std::random_device;
 using std::default_random_engine;
 using std::uniform_int_distribution;
 
+struct Move
+{
+	int pile;
+	int rocks;
+};
+
 void initializeBoard(int board[19], int localPlayer)
 {
 	random_device rd;
@@ -39,8 +45,6 @@ void initializeBoard(int board[19], int localPlayer)
 		}
 	}
 }
-
-
 
 void displayBoard(int *setup) {
 	int numOfPiles = setup[0];
@@ -68,9 +72,12 @@ void displayBoard(int *setup) {
 =======
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 
 >>>>>>> 89a8f1dee610f2c1598b49df5f703bbf80f91ad6
 >>>>>>> 2470d0781fef648f8ff11d5b6cc3af2c14096bfc
+>>>>>>> 81c2ef5777cd2b145c68e965d57650b65ae0d425
 //void updateBoard( char board[10], int move, int Player)
 //{
 //	if (Player == PLAYER1) {
@@ -98,25 +105,44 @@ bool checkEndgame(int board[19])
 	return rocksRemain;
 }
 
-//int getMove(char board[10], int Player)
-//{
-//	int move;
-//	char move_str[80];
-//
-//	std::cout << "Where do you want to place your ";
-//	char mark = (Player == PLAYER1) ? 'X' : 'O';
-//	std::cout << mark << "? " << std::endl;
-//
-//	do {
-//		std::cout << "Your move? ";
-//		std::cin  >> move_str;
-//		move = atoi(move_str);
-//		if (board[move] == 'X' || board[move] == 'O') move = 0;
-//	} while (move < 1 || move > 9);
-//
-//	return move;
-//}
-//
+Move getMove(int board[19], int Player)
+{
+	Move move;
+	int movePile;
+	int moveRock;
+	bool validMove = false;
+
+	//Get which pile the user wants to move.
+	while (!validMove)
+	{
+		cout << "Which pile do you want to take from? ";
+		cin >> movePile;
+
+		if (movePile >= 1 && movePile <= board[0])
+			validMove = true;
+		else
+			cout << "That is not a valid pile number. " << endl;
+	}
+	validMove = false;
+	
+	//Get how many rocks the user wants to take.
+	while (!validMove)
+	{
+		cout << "How many rocks do you want to take? ";
+		cin >> moveRock;
+
+		if (moveRock >= 1 && moveRock <= board[movePile])
+			validMove = true;
+		else
+			cout << "That is not a valid rock number. " << endl;
+	}
+
+	move.pile = movePile;
+	move.rocks = moveRock;
+	
+	return move;
+}
+
 //int playTicTacToe(SOCKET s, std::string serverName, std::string remoteIP, std::string remotePort, int localPlayer)
 //{
 //	// This function plays the game and returns the value: winner.  This value 
