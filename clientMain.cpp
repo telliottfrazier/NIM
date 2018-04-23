@@ -14,7 +14,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 	SOCKET s = connectsock("","","udp");	// Create a socket  (Don't need to designate a host or port for UDP)
 
 	// Find all TicTacToe servers on our subnet
-	std::cout << std::endl << "Looking for TicTacToe servers ... " << std::endl;
+	std::cout << std::endl << "Looking for NIM servers ... " << std::endl;
 
 	char broadcastAddress[v4AddressSize];
 	char myIPAddress[v4AddressSize];
