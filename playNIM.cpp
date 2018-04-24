@@ -282,13 +282,21 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	//			winner = ABORT;
 	//		}
 	//	}
-	//	myMove = !myMove;
-	//
-	//	if (winner == ABORT) {
-	//		std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
-	//	} else {
-	//		winner = check4Win(board);
-	//	}
+			
+		if (winner == ABORT) {
+			std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
+		} else {
+			winner = checkEndgame(board);
+			if (winner)
+			{
+				//Whoever just moved loses.
+				if (myMove)
+					winner = opponent;
+				else
+					winner = localPlayer;
+			}
+		}
+		myMove = !myMove;
 			
 		if (winner == localPlayer)
 			std::cout << "You WIN!" << std::endl;
