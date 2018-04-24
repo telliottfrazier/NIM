@@ -84,7 +84,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 				UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, (char*)host.c_str(), (char*)port.c_str());
 
 				// Play the game.  You are the first player
-				bool winner = playNim(s, serverName, host, port, PLAYER1);
+				int winner = playNim(s, serverName, host, port, PLAYER1);
 			}
 			else
 			{

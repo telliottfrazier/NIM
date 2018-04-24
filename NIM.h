@@ -6,7 +6,6 @@
 #define NIM_NAME	"Name="
 #define NIM_CHALLENGE	"Player="
 #define NIM_ACCEPT	"Great!"
-#define NIM_ACCEPT "Great!"
 
 
 static char NIM_UDPPORT[] = "29333";
@@ -28,7 +27,6 @@ struct ServerStruct {
 	std::string port;
 };
 
-void playNim(SOCKET, bool, char*, bool, bool, char*, char*, bool);
 SOCKET connectsock(const char*, const char*, const char*);
 SOCKET passivesock(const char*, const char*);
 int UDP_recv(SOCKET, char*, int, char*, char*);
@@ -36,7 +34,7 @@ int UDP_send(SOCKET, char*, int, const char*, const char*);
 int wait(SOCKET, int, int);
 char* timestamp();
 int getServers(SOCKET, char*, char*, ServerStruct[]);
-bool playNim(SOCKET, std::string, std::string, std::string, int);
+int playNim(SOCKET, std::string, std::string, std::string, int);
 int serverMain(int, char *argv[], std::string);
 int clientMain(int, char *argv[], std::string);
 int getIPAddressInfo(char*, char*);
