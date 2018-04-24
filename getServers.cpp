@@ -46,19 +46,19 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 
 		//receive a broadcast message	
 		int numBytesRecv = UDP_recv(s, recvBuffer, sizeof(recvBuffer) - 1, host, port);
+		len = strlen(recvBuffer);
 
-		int status2 = wait(s, 15, 0);
+		//int status2 = wait(s, 15, 0);
 
-		char recvBuffer2[MAX_RECV_BUF + 1];
+		//char recvBuffer2[MAX_RECV_BUF + 1];
+		//numBytesRecv = UDP_recv(s, recvBuffer2, sizeof(recvBuffer2) - 1, host, port);
 
-		numBytesRecv = UDP_recv(s, recvBuffer2, sizeof(recvBuffer2) - 1, host, port);
-
-		if (strcmp(recvBuffer2, "Yes") == 0) 
-		{
-			numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);
+		//if (strcmp(recvBuffer2, "Yes") == 0) 
+		//{
+			//numBytesSent = UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, host, NIM_UDPPORT);
 
 			string name;
-			while (status2 > 0 && len > 0)
+			while (status > 0 && len > 0)
 			{
 				string recvStr(recvBuffer);
 				if (recvStr.substr(0, 5) == "Name=")
@@ -69,15 +69,19 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 					serverArray[numServers].port = port;
 					numServers++;
 				}
+
+				status = wait(s, 2, 0);
+				if (status > 0)
+					len = UDP_recv(s, recvBuffer, MAX_RECV_BUF, host, port);
 			}
-		}
-		else
-		{
+		//}
+		//else
+		//{
 			// Now, we'll see if there is another response.
-			status = wait(s, 2, 0);
-			if (status > 0)
-				len = UDP_recv(s, recvBuffer, MAX_RECV_BUF, host, port);
-		}
+			//status = wait(s, 2, 0);
+			//if (status > 0)
+				//len = UDP_recv(s, recvBuffer, MAX_RECV_BUF, host, port);
+		//}
 	}
 	return numServers;
 }
