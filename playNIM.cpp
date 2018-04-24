@@ -68,15 +68,15 @@ void displayBoard(int *setup) {
 	cout << "--------------------------------------------------------------------------------" << endl;
 }
 
-//void updateBoard( char board[10], int move, int Player)
-//{
-//	if (Player == PLAYER1) {
-//		board[move] = 'X';
-//	} else if (Player == PLAYER2) {
-//		board[move] = 'O';
-//	} else
-//		std::cout << "Problem with updateBoard function!" << std::endl;
-//}
+bool updateBoard(int board[10], Move move)
+{
+	bool validMove = true;
+
+	if (move.rocks > board[move.pile])
+		validMove = false;
+	else
+		board[move.pile] -= move.rocks;
+}
 
 //Checks to see if there are no rocks left on the board.
 //If there are no rocks remaining then it returns false,
