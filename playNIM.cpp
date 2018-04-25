@@ -97,7 +97,7 @@ bool checkEndgame(int board[19])
 	return rocksRemain;
 }
 
-Move getMove(int board[19], int Player)
+Move getMove(int board[19])
 {
 	Move move;
 	int movePile;
@@ -246,70 +246,92 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-			move = getMove(board, localPlayer);
+			move = getMove(board);
 			std::cout << "Board after your move:" << std::endl;
 			updateBoard(board, move);
 			displayBoard(board);
 
-			// Send move to opponent
-	/****
-		Task 1: "move" is an integer that was assigned a value (from 1 to 9) in the previous code segment.
-				 Add code here to convert "move" to a null-terminated C-string and send it to your opponent at remoteIP using remotePort.
-	//****/
-	//		char moveString[MAX_SEND_BUF - 1];
-	//		//sprintf_s(moveString, "%d\0", move);
-	//		_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
-	//		UDP_send(s, moveString, strlen(moveString) , (char*)remoteIP.c_str(), (char*)remotePort.c_str());
-	//
-	//
-	//	} else {
-	//		std::cout << "Waiting for your opponent's move..." << std::endl << std::endl;
-	//		//Get opponent's move & display board
-	//		int status = wait(s,WAIT_TIME,0);
-	//		if (status > 0) {
-	///****			
-	//Task 2: (i) Insert code inside this IF statement that will accept a null-terminated C-string from your
-	//		opponent that represents their move.  Convert that string to an integer and then
-	//		(ii) call a function that will update the game board (see above) using your opponent's move, and
-	//		(iii) call a function that will display the updated board on your screen.
-	//****/
-	//			char opponentBuff[MAX_RECV_BUF -1];
-	//
-	//			UDP_recv(s, opponentBuff, MAX_RECV_BUF-1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
-	//
-	//			int opponentMove = atoi(opponentBuff);
-	//			updateBoard(board, opponentMove, opponent);
-	//			displayBoard(board);
-	//
-	//		} else {
-	//			winner = ABORT;
-	//		}
-	//	}
 
-			if (winner == ABORT) {
-				std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
-			}
-			else {
-				winner = checkEndgame(board);
-				if (winner)
-				{
-					//Whoever just moved loses.
-					if (myMove)
-						winner = opponent;
-					else
-						winner = localPlayer;
-				}
-			}
-			myMove = !myMove;
 
-			if (winner == localPlayer)
-				std::cout << "You WIN!" << std::endl;
-			else if (winner == opponent)
-				std::cout << "I'm sorry.  You lost" << std::endl;
+			//Send move to opponent
+   /****
+	   Task 1: "move" is an integer that was assigned a value (from 1 to 9) in the previous code segment.
+				Add code here to convert "move" to a null-terminated C-string and send it to your opponent at remoteIP using remotePort.
+   ****/
+			char moveString[MAX_SEND_BUF - 1];
+			//sprintf_s(moveString, "%d\0", move);
+			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
+			UDP_send(s, moveString, strlen(moveString), (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+
+
 		}
+		else {
+			std::cout << "Waiting for your opponent's move..." << std::endl << std::endl;
+			//Get opponent's move & display board
+			int status = wait(s, WAIT_TIME, 0);
+			if (status > 0) {
+				/****
+				Task 2: (i) Insert code inside this IF statement that will accept a null-terminated C-string from your
+						opponent that represents their move.  Convert that string to an integer and then
+						(ii) call a function that will update the game board (see above) using your opponent's move, and
+						(iii) call a function that will display the updated board on your screen.
+				****/
+				char opponentBuff[MAX_RECV_BUF - 1];
 
-		//return winner;
+				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
-		return true;
+				cout << opponentBuff << endl;
+
+				//		if (opponentBuff[0] == 'C')
+				//		{
+				//			//It is a chat datagram.
+				//		}
+				//		else if (opponentBuff[0] == 'F')
+				//			winner = ABORT;
+				//		else
+				//		{
+
+				//		}
+
+				//		int opponentMove = atoi(opponentBuff);
+
+
+
+				//	/*if (!updateBoard(board, opponentMove))
+				//		winner = ABORT;
+				//		displayBoard(board);*/
+
+				//	} else {
+				//		winner = ABORT;
+				//	}
+				//}
+
+				//	if (winner == ABORT) {
+				//		std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
+				//	}
+				//	else {
+				//		winner = checkEndgame(board);
+				//		if (winner)
+				//		{
+				//			//Whoever just moved loses.
+				//			if (myMove)
+				//				winner = opponent;
+				//			else
+				//				winner = localPlayer;
+				//		}
+				//	}
+				//	myMove = !myMove;
+
+				//	if (winner == localPlayer)
+				//		std::cout << "You WIN!" << std::endl;
+				//	else if (winner == opponent)
+				//		std::cout << "I'm sorry.  You lost" << std::endl;
+				//}
+
+				////return winner;
+
+				return true;
+			}
+		}
 	}
 }
