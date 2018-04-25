@@ -147,6 +147,19 @@ Move getMove(int board[19])
 	
 	return move;
 }
+//void moveOptions(char decision, Move move, int board[]) {
+//	if (decision >= '1' && decision <= '9') {
+//		move = getMove(board);
+//		updateBoard(board, move);
+//	}
+//	else if (decision == 'c' || decision == 'C') {
+//		std::cout << "chat" << endl;
+//	}
+//
+//	else if (decision == 'f' || decision == 'F') {
+//	std:cout << "forfeit" << endl;
+//	}
+//}
 
 //int playTicTacToe(SOCKET s, std::string serverName, std::string remoteIP, std::string remotePort, int localPlayer)
 //{
@@ -262,8 +275,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-<<<<<<< HEAD
-=======
 			//move = getMove(board);
 
 			if (firstMove == false) {
@@ -271,21 +282,32 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			}
 			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
->>>>>>> cee35d35c2132338d0afbf06e4d83ae5d90444de
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
-			move = getMove(board);
-			updateBoard(board, move);
+			std::cout << "Enter first letter of one of the following commands (C or F);";
+				std::cout << " or enter a number to make a move." << endl;
+				std::cout << "Command (Chat, Forfeit, #)?";
+			char decision;
+			cin >> decision;
+			//moveOptions(decision, move, board);
+			if (decision >= '1' && decision <= '9') {
+				move = getMove(board);
+				updateBoard(board, move);
+			}
+			else if (decision == 'c' || decision == 'C') {
+				std::cout << "chat" << endl;
+			}
+
+			else if (decision == 'f' || decision == 'F') {
+			std:cout << "forfeit" << endl;
+			}
 			myMove = false;
 			firstMove = false;
 
 
 
 			//Send move to opponent
-   /****
-	   Task 1: "move" is an integer that was assigned a value (from 1 to 9) in the previous code segment.
-				Add code here to convert "move" to a null-terminated C-string and send it to your opponent at remoteIP using remotePort.
-   ****/
+
 			char moveString[MAX_SEND_BUF - 1];
 			//TODO: encode new move to be sent as a char array in UDP_SEND
 
@@ -313,29 +335,30 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
 
-				//		if (opponentBuff[0] == 'C')
-				//		{
-				//			//It is a chat datagram.
-				//		}
-				//		else if (opponentBuff[0] == 'F')
-				//			winner = ABORT;
-				//		else
-				//		{
-
-				//		}
+				if (opponentBuff[0] == 'C')
+				{
+					//It is a chat datagram.
+				}
+				else if (opponentBuff[0] == 'F')
+				{
+					winner = ABORT;
+					std::cout << "YOU WON! Opponent has forfeited." << endl;
+				}
+				else if(opponentBuff[0] < '1' || opponentBuff[0] > '9')
+				{
+					winner = ABORT;
+					std::cout << "YOU WON! Opponent has made in invalid move." << endl;
+				}
 
 				//		int opponentMove = atoi(opponentBuff);
 
 
 
-				//	/*if (!updateBoard(board, opponentMove))
-				//		winner = ABORT;
-				//		displayBoard(board);*/
-
-				//	} else {
-				//		winner = ABORT;
-				//	}
-				//}
+				//		if (!updateBoard(board, opponentMove))
+				//		{
+				//			winner = ABORT;
+				//			std::cout << YOU WON! Opponent has made an invalid move. << endl;
+				//		}
 
 				//	if (winner == ABORT) {
 				//		std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
