@@ -76,7 +76,7 @@ void displayBoard(int *setup) {
 
 		cout << std::setw(60) << std::left << row << "(" << std::setw(2) << setup[i + 1] << ") <- Rock Pile #" << (i + 1) << endl;
 	}
-	cout << "--------------------------------------------------------------------------------" << endl;
+	cout << "--------------------------------------------------------------------------------" << endl << endl;
 }
 
 bool updateBoard(int board[10], Move move)
@@ -242,7 +242,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	int firstMove = true;
 
 	if (localPlayer == PLAYER1) {
-		std::cout << "You go first. " << std::endl;
 		char opponentBuff[MAX_RECV_BUF - 1];
 		UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 		parseBoard(opponentBuff, board);
@@ -256,23 +255,22 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 		myMove = false;
 	}
 
-	for (int i = 0; i < sizeof(board); i++)
-	{
-		cout << board[i];
-	}
-	cout << endl;
-
 	
 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
 			//move = getMove(board);
+<<<<<<< HEAD
 			if (firstMove == false) {
 				std::cout << "Board after your move:" << std::endl;
 			}
+=======
+			//std::cout << "Board after your move:" << std::endl;
+>>>>>>> 2cc04e1f2da6e8305a28940c582a3f15e9a54afc
 			//updateBoard(board, move);
 			displayBoard(board);
+			std::cout << "Your turn. " << std::endl;
 			myMove = false;
 			firstMove = false;
 
