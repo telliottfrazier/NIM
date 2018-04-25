@@ -79,11 +79,13 @@ void displayBoard(int *setup) {
 	cout << "--------------------------------------------------------------------------------" << endl << endl;
 }
 
-bool updateBoard(int board[10], Move move)
+bool updateBoard(int board[], Move move)
 {
 	bool validMove = true;
 
-	if (move.rocks > board[move.pile])
+	if (move.pile > board[0] || move.pile <= 0)
+		validMove = false;
+	else if (move.rocks > board[move.pile])
 		validMove = false;
 	else
 		board[move.pile] -= move.rocks;
@@ -259,11 +261,10 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-			//move = getMove(board);
-			//std::cout << "Board after your move:" << std::endl;
-			//updateBoard(board, move);
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
+			move = getMove(board);
+			updateBoard(board, move);
 			myMove = false;
 
 
@@ -274,6 +275,10 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				Add code here to convert "move" to a null-terminated C-string and send it to your opponent at remoteIP using remotePort.
    ****/
 			char moveString[MAX_SEND_BUF - 1];
+			//TODO: encode new move to be sent as a char array in UDP_SEND
+
+
+
 			//sprintf_s(moveString, "%d\0", move);
 			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
 			UDP_send(s, moveString, strlen(moveString), (char*)remoteIP.c_str(), (char*)remotePort.c_str());
