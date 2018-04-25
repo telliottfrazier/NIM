@@ -287,10 +287,8 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-<<<<<<< HEAD
-=======
 
->>>>>>> 679a1c3da7550f676f4a12151766f289b4d0c3a7
+
 			//move = getMove(board);
 
 			if (firstMove == false) {
@@ -298,10 +296,8 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			}
 			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
-<<<<<<< HEAD
-=======
 
->>>>>>> 679a1c3da7550f676f4a12151766f289b4d0c3a7
+
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			std::cout << "Enter first letter of one of the following commands (C or F);";
@@ -352,8 +348,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				char opponentBuff[MAX_RECV_BUF - 1];
 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
-				Move opponentMove;
-				parseMove(opponentBuff, opponentMove);
 
 
 				if (opponentBuff[0] == 'C')
@@ -370,37 +364,39 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					winner = ABORT;
 					std::cout << "YOU WON! Opponent has made in invalid move." << endl;
 				}
+				else
+					parseMove(opponentBuff, move);						// Accept and parse opponent move
+				
+					
 
-				//		int opponentMove = atoi(opponentBuff);
+			
+				// Check if opponents move is invalid in terms of the board layout
+				if (!updateBoard(board, move))		
+				{
+					winner = ABORT;
+					std::cout << "YOU WON! Opponent has made an invalid move." << endl;
+				}
 
+				if (winner == ABORT) {
+					std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
+				}
+				else {
+					winner = checkEndgame(board);
+					if (winner)
+					{
+						//Whoever just moved loses.
+						if (myMove)
+							winner = opponent;
+						else
+							winner = localPlayer;
+					}
+				}
+				//	mymove = !mymove;
 
-
-				//		if (!updateBoard(board, opponentMove))
-				//		{
-				//			winner = ABORT;
-				//			std::cout << YOU WON! Opponent has made an invalid move. << endl;
-				//		}
-
-				//	if (winner == ABORT) {
-				//		std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
-				//	}
-				//	else {
-				//		winner = checkEndgame(board);
-				//		if (winner)
-				//		{
-				//			//Whoever just moved loses.
-				//			if (myMove)
-				//				winner = opponent;
-				//			else
-				//				winner = localPlayer;
-				//		}
-				//	}
-				//	myMove = !myMove;
-
-				//	if (winner == localPlayer)
-				//		std::cout << "You WIN!" << std::endl;
+				//	if (winner == localplayer)
+				//		std::cout << "you win!" << std::endl;
 				//	else if (winner == opponent)
-				//		std::cout << "I'm sorry.  You lost" << std::endl;
+				//		std::cout << "i'm sorry.  you lost" << std::endl;
 				//}
 
 				////return winner;
