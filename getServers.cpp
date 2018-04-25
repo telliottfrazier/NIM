@@ -82,6 +82,7 @@ int getServers(SOCKET s, char *broadcastAddress, char *broadcastPort, ServerStru
 			//if (status > 0)
 				//len = UDP_recv(s, recvBuffer, MAX_RECV_BUF, host, port);
 		//}
+
 	}
 	return numServers;
 }
