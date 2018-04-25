@@ -50,6 +50,24 @@ void parseMove(char* opponentBuff, Move &opponentMove)
 	opponentMove.rocks = stoi(opponentStr.substr(1, 2));
 }
 
+void encodeMove(const Move move, char* sendableBoard)
+{
+	char temp[3];
+
+	_itoa_s(move.pile, temp, sizeof(temp), 10);
+	sendableBoard[0] = temp[0];
+
+	int tens = move.rocks / 10;
+	int ones = move.rocks % 10;
+
+	_itoa_s(tens, temp, sizeof(temp), 10);
+	sendableBoard[1] = temp[0];
+	_itoa_s(ones, temp, sizeof(temp), 10);
+	sendableBoard[2] = temp[0];
+
+	sendableBoard[3] = NULL;
+}
+
 void initializeBoard(int board[19])
 {
 	random_device rd;
