@@ -17,9 +17,7 @@ int main (int argc, char *argv[])
 		return 0;
 	}
 	
-	std::string playerName;
-	std::cout << "What is your name? ";
-	std::getline(std::cin, playerName);
+
 
 	char choiceStr[80], newline;
 	int choice = 0;
@@ -33,6 +31,10 @@ int main (int argc, char *argv[])
 		std::cout << "Enter 1, 2 or 3: ";
 		std::cin >> choiceStr; std::cin.get(newline);
 		choice = atoi(choiceStr);
+
+		std::string playerName;
+		std::cout << "What is your name? ";
+		std::getline(std::cin, playerName);
 
 		switch (choice) {
 		case 1:	serverMain(argc,argv,playerName); break;	// Call the server main function

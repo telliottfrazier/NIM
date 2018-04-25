@@ -77,11 +77,13 @@ int clientMain(int argc, char *argv[], std::string playerName)
 			// Recieve "yes" or "no" response to challenge request
 			char recvBuffer2[MAX_RECV_BUF + 1];
 			int numBytesRecv = UDP_recv(s, recvBuffer2, sizeof(recvBuffer2) - 1, (char*)host.c_str(), (char*)port.c_str());
+			std::cout << timestamp() << " - Recieving: " << recvBuffer2 << std::endl;
 
 			if (recvBuffer2[0] == 'y' || recvBuffer2[0] == 'Y' && status2 > 0)
 			{
 				// Send "Great!" to other player if they accept the challenge request
 				UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, (char*)host.c_str(), (char*)port.c_str());
+				std::cout << timestamp() << " - Sending: " << NIM_ACCEPT << std::endl;
 
 				// Play the game.  You are the first player
 				int winner = playNim(s, serverName, host, port, PLAYER1);

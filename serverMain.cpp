@@ -33,11 +33,40 @@ int serverMain(int argc, char *argv[], std::string playerName)
 			char *startOfName = strstr(buffer,NIM_CHALLENGE);
 			if (startOfName != NULL) {
 				std::cout << std::endl << "You have been challenged by " << startOfName+strlen(NIM_CHALLENGE) << std::endl;
+				
+				std::string answerResponse;
+				std::cout << "Do you want to challenge " << playerName << "? ";
+				std::getline(std::cin, answerResponse);
+				if (answerResponse[0] == 'y' || answerResponse[0] == 'Y')
+				{
+					// Accept challenge request by the client
+					std::string reply = "YES";
+					UDP_send(s, (char*)reply.c_str(), strlen((char*)reply.c_str()) + 1, (char*)host.c_str(), (char*)port.c_str());
+					std::cout << timestamp() << " - Sending: " << (char*)reply.c_str() << std::endl;
+
+					// Wait 2 seconds for client to send "Great!"
+					int status3 = wait(s, 2, 0);
+
+					// Attempt to recieve the "Great!" response from the client
+					char greatResponse[MAX_RECV_BUF];
+					UDP_recv(s, greatResponse, sizeof(greatResponse) - 1, (char*)host.c_str(), (char*)port.c_str());
+					std::cout << timestamp() << " - Received: " << greatResponse << std::endl;
+					
+					// If "Great!" string is recieved from the client
+					if (status3 > 0)
+					{
+						int winner = playNim(s, (char*)playerName.c_str(), (char*)host.c_str(), (char*)port.c_str(), PLAYER2);
+						finished = true;
+					}
+				}
+				else
+				{
+					// Reject challenge request by the client
+					std::string reply = "NO";
+					UDP_send(s, (char*)reply.c_str(), strlen((char*)reply.c_str()) + 1, (char*)host.c_str(), (char*)port.c_str());
+					std::cout << timestamp() << " - Sending: " << (char*)reply.c_str() << std::endl;
+				}
 			}
-			
-			// Play the game.  You are the second player
-			int winner = playNim(s, (char*) playerName.c_str(), (char*)host.c_str(), (char*)port.c_str(), PLAYER2);
-			finished = true;
 		}
 
 		if (!finished) {
