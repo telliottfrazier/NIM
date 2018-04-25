@@ -241,6 +241,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	int opponent;
 	Move move;
 	bool myMove;
+	int firstMove = true;
 
 	if (localPlayer == PLAYER1) {
 		char opponentBuff[MAX_RECV_BUF - 1];
@@ -261,11 +262,22 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
+<<<<<<< HEAD
+=======
+			//move = getMove(board);
+
+			if (firstMove == false) {
+				std::cout << "Board after your move:" << std::endl;
+			}
+			//std::cout << "Board after your move:" << std::endl;
+			//updateBoard(board, move);
+>>>>>>> cee35d35c2132338d0afbf06e4d83ae5d90444de
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			move = getMove(board);
 			updateBoard(board, move);
 			myMove = false;
+			firstMove = false;
 
 
 
