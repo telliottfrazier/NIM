@@ -77,6 +77,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 			// Recieve "yes" or "no" response to challenge request
 			char recvBuffer2[MAX_RECV_BUF + 1];
 			int numBytesRecv = UDP_recv(s, recvBuffer2, sizeof(recvBuffer2) - 1, (char*)host.c_str(), (char*)port.c_str());
+			std::cout << timestamp() << " - Recieving: " << recvBuffer2 << std::endl;
 
 			if (recvBuffer2[0] == 'y' || recvBuffer2[0] == 'Y' && status2 > 0)
 			{
