@@ -76,6 +76,8 @@ bool updateBoard(int board[10], Move move)
 		validMove = false;
 	else
 		board[move.pile] -= move.rocks;
+
+	return validMove;
 }
 
 //Checks to see if there are no rocks left on the board.
