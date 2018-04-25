@@ -22,27 +22,38 @@ struct Move
 	int rocks;
 };
 
-void initializeBoard(int board[19], int localPlayer)
+
+void parseBoard(char* board, int correctBoard[])
+{
+	int size = strlen(board);
+	int k = 1;
+	correctBoard[0] = board[0] - '0';
+	for (int i = 1; i < size; i += 2)
+	{
+		int tens;
+		int ones;
+		tens = (board[i] - '0') * 10;
+		ones = board[i+1] - '0';
+		correctBoard[k] = tens + ones;
+		k++;
+	}
+}
+
+
+void initializeBoard(int board[19])
 {
 	random_device rd;
 	default_random_engine engine(rd());
 	uniform_int_distribution<int> piles(3, 9);
 	uniform_int_distribution<int> rocks(1, 20);
 
-	if (localPlayer == PLAYER1)
-	{
-		//Get board from opponent.
-	}
-	else
-	{
-		//Create and send a board.
-		//3 to 9 piles with 1 to 20 rocks per pile.
-		board[0] = piles(engine);
+	//Create and send a board.
+	//3 to 9 piles with 1 to 20 rocks per pile.
+	board[0] = piles(engine);
 
-		for (int i = 1; i <= board[0]; ++i)
-		{
-			board[i] = rocks(engine);
-		}
+	for (int i = 1; i <= board[0]; ++i)
+	{
+		board[i] = rocks(engine);
 	}
 }
 
@@ -231,25 +242,35 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 	if (localPlayer == PLAYER1) {
 		std::cout << "You go first. " << std::endl;
+		char opponentBuff[MAX_RECV_BUF - 1];
+		UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+		parseBoard(opponentBuff, board);
 		opponent = PLAYER2;
 		myMove = true;
 	}
 	else {
+		initializeBoard(board);
 		std::cout << "You go second. " << std::endl;
 		opponent = PLAYER1;
 		myMove = false;
 	}
 
-	initializeBoard(board, localPlayer);
-	displayBoard(board);
+	for (int i = 0; i < sizeof(board); i++)
+	{
+		cout << board[i];
+	}
+	cout << endl;
+
+	
 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-			move = getMove(board);
+			//move = getMove(board);
 			std::cout << "Board after your move:" << std::endl;
-			updateBoard(board, move);
+			//updateBoard(board, move);
 			displayBoard(board);
+			myMove = false;
 
 
 
@@ -280,7 +301,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
-				cout << opponentBuff << endl;
 
 				//		if (opponentBuff[0] == 'C')
 				//		{
