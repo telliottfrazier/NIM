@@ -41,9 +41,8 @@ void parseBoard(char* board, int correctBoard[])
 	}
 }
 
-
-// opponentBuff holds “mnn” where m is a single digit (‘1’ thru ‘9’) that represents a pile number, and nn are 2
-// digits(“01” through “20”) that represent the number of “rocks” to remove from pile m.
+// opponentBuff holds "mnn" where m is a single digit ('1' thru '9') that represents a pile number, and nn are 2
+// digits("01" through "20") that represent the number of “rocks” to remove from pile m.
 void parseMove(char* opponentBuff, Move &opponentMove)
 {
 	string opponentStr(opponentBuff);
@@ -51,6 +50,23 @@ void parseMove(char* opponentBuff, Move &opponentMove)
 	opponentMove.rocks = stoi(opponentStr.substr(1, 2));
 }
 
+void encodeMove(const Move move, char* sendableBoard)
+{
+	char temp[3];
+
+	_itoa_s(move.pile, temp, sizeof(temp), 10);
+	sendableBoard[0] = temp[0];
+
+	int tens = move.rocks / 10;
+	int ones = move.rocks % 10;
+
+	_itoa_s(tens, temp, sizeof(temp), 10);
+	sendableBoard[1] = temp[0];
+	_itoa_s(ones, temp, sizeof(temp), 10);
+	sendableBoard[2] = temp[0];
+
+	sendableBoard[3] = NULL;
+}
 
 void initializeBoard(int board[19])
 {
@@ -138,7 +154,10 @@ Move getMove(int board[19])
 		if (movePile >= 1 && movePile <= board[0])
 			validMove = true;
 		else
+		{
 			cout << "That is not a valid pile number. " << endl;
+			cin.clear();
+		}
 	}
 	validMove = false;
 	
@@ -287,6 +306,11 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0604239a81eee339d1e30e6e61bb384327fc23d0
 			//move = getMove(board);
 
 			if (firstMove == false) {
@@ -294,6 +318,11 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			}
 			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0604239a81eee339d1e30e6e61bb384327fc23d0
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			std::cout << "Enter first letter of one of the following commands (C or F);";
@@ -351,8 +380,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				char opponentBuff[MAX_RECV_BUF - 1];
 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
-				Move opponentMove;
-				parseMove(opponentBuff, opponentMove);
 
 
 				if (opponentBuff[0] == 'C')
@@ -369,43 +396,44 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					winner = ABORT;
 					std::cout << "YOU WON! Opponent has made in invalid move." << endl;
 				}
+				else
+					parseMove(opponentBuff, move);						// Accept and parse opponent move
+				
+					
 
-				//		int opponentMove = atoi(opponentBuff);
+			
+			
+				if (!updateBoard(board, move))		
+				{
+					winner = ABORT;
+					std::cout << "YOU WON! Opponent has made an invalid move." << endl;			// opponents move is invalid based on game layout
+				}
 
+				if (winner == ABORT) {
+					std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
+				}
+				else {
+					winner = checkEndgame(board);
+					if (winner)
+					{
+						//Whoever just moved loses.
+						if (myMove)
+							winner = opponent;
+						else
+							winner = localPlayer;
+					}
+				}
+				myMove = !myMove;
 
+				if (winner == localPlayer)
+					std::cout << "you win!" << std::endl;
+				else if (winner == opponent)
+					std::cout << "i'm sorry.  you lost" << std::endl;
+				}
 
-				//		if (!updateBoard(board, opponentMove))
-				//		{
-				//			winner = ABORT;
-				//			std::cout << YOU WON! Opponent has made an invalid move. << endl;
-				//		}
+				return winner;
 
-				//	if (winner == ABORT) {
-				//		std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
-				//	}
-				//	else {
-				//		winner = checkEndgame(board);
-				//		if (winner)
-				//		{
-				//			//Whoever just moved loses.
-				//			if (myMove)
-				//				winner = opponent;
-				//			else
-				//				winner = localPlayer;
-				//		}
-				//	}
-				//	myMove = !myMove;
-
-				//	if (winner == localPlayer)
-				//		std::cout << "You WIN!" << std::endl;
-				//	else if (winner == opponent)
-				//		std::cout << "I'm sorry.  You lost" << std::endl;
-				//}
-
-				////return winner;
-
-				return true;
+				//return true;
 			}
 		}
 	}
-}
