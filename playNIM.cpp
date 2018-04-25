@@ -50,6 +50,32 @@ void parseMove(char* opponentBuff, Move &opponentMove)
 	opponentMove.rocks = stoi(opponentStr.substr(1, 2));
 }
 
+void encodeBoard(const int board[], char* sendableBoard)
+{
+	int tens;
+	int ones;
+	char temp[3];
+
+	_itoa_s(board[0], temp, sizeof(temp), 10);
+	sendableBoard[0] = temp[0];
+
+	int k = 1;
+
+	for (int i = 1; k <= board[0]; i += 2)
+	{
+		tens = board[k] / 10;
+		ones = board[k] % 10;
+
+		_itoa_s(tens, temp, sizeof(temp), 10);
+		sendableBoard[i] = temp[0];
+		_itoa_s(ones, temp, sizeof(temp), 10);
+		sendableBoard[i + 1] = temp[0];
+		k++;
+	}
+
+	sendableBoard[(board[0] * 2) + 1] = '\0';
+}
+
 void encodeMove(const Move move, char* sendableBoard)
 {
 	char temp[3];
