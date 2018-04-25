@@ -16,6 +16,8 @@ using std::random_device;
 using std::default_random_engine;
 using std::uniform_int_distribution;
 
+using namespace std;
+
 struct Move
 {
 	int pile;
@@ -37,6 +39,16 @@ void parseBoard(char* board, int correctBoard[])
 		correctBoard[k] = tens + ones;
 		k++;
 	}
+}
+
+
+// opponentBuff holds “mnn” where m is a single digit (‘1’ thru ‘9’) that represents a pile number, and nn are 2
+// digits(“01” through “20”) that represent the number of “rocks” to remove from pile m.
+void parseMove(char* opponentBuff, Move &opponentMove)
+{
+	string opponentStr(opponentBuff);
+	opponentMove.pile = stoi(opponentStr.substr(0, 1));
+	opponentMove.rocks = stoi(opponentStr.substr(1, 2));
 }
 
 
@@ -275,6 +287,10 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
+<<<<<<< HEAD
+=======
+
+>>>>>>> 679a1c3da7550f676f4a12151766f289b4d0c3a7
 			//move = getMove(board);
 
 			if (firstMove == false) {
@@ -282,6 +298,10 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			}
 			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 679a1c3da7550f676f4a12151766f289b4d0c3a7
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			std::cout << "Enter first letter of one of the following commands (C or F);";
@@ -311,11 +331,10 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			char moveString[MAX_SEND_BUF - 1];
 			//TODO: encode new move to be sent as a char array in UDP_SEND
 
-
-
+		
 			//sprintf_s(moveString, "%d\0", move);
 			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
-			UDP_send(s, moveString, strlen(moveString), (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+			UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
 
 		}
@@ -333,6 +352,8 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				char opponentBuff[MAX_RECV_BUF - 1];
 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+				Move opponentMove;
+				parseMove(opponentBuff, opponentMove);
 
 
 				if (opponentBuff[0] == 'C')
