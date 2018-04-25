@@ -370,11 +370,11 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					
 
 			
-				// Check if opponents move is invalid in terms of the board layout
+			
 				if (!updateBoard(board, move))		
 				{
 					winner = ABORT;
-					std::cout << "YOU WON! Opponent has made an invalid move." << endl;
+					std::cout << "YOU WON! Opponent has made an invalid move." << endl;			// opponents move is invalid based on game layout
 				}
 
 				if (winner == ABORT) {
@@ -391,18 +391,17 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 							winner = localPlayer;
 					}
 				}
-				//	mymove = !mymove;
+				myMove = !myMove;
 
-				//	if (winner == localplayer)
-				//		std::cout << "you win!" << std::endl;
-				//	else if (winner == opponent)
-				//		std::cout << "i'm sorry.  you lost" << std::endl;
-				//}
+				if (winner == localPlayer)
+					std::cout << "you win!" << std::endl;
+				else if (winner == opponent)
+					std::cout << "i'm sorry.  you lost" << std::endl;
+				}
 
-				////return winner;
+				return winner;
 
-				return true;
+				//return true;
 			}
 		}
 	}
-}
