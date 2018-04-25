@@ -39,7 +39,6 @@ void parseBoard(char* board, int correctBoard[])
 	}
 }
 
-
 void initializeBoard(int board[19])
 {
 	random_device rd;
@@ -126,7 +125,10 @@ Move getMove(int board[19])
 		if (movePile >= 1 && movePile <= board[0])
 			validMove = true;
 		else
+		{
 			cout << "That is not a valid pile number. " << endl;
+			cin.clear();
+		}
 	}
 	validMove = false;
 	
