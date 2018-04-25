@@ -82,6 +82,7 @@ int clientMain(int argc, char *argv[], std::string playerName)
 			{
 				// Send "Great!" to other player if they accept the challenge request
 				UDP_send(s, NIM_ACCEPT, strlen(NIM_ACCEPT) + 1, (char*)host.c_str(), (char*)port.c_str());
+				std::cout << timestamp() << " - Sending: " << NIM_ACCEPT << std::endl;
 
 				// Play the game.  You are the first player
 				int winner = playNim(s, serverName, host, port, PLAYER1);
