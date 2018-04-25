@@ -287,10 +287,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-<<<<<<< HEAD
-=======
-
->>>>>>> 679a1c3da7550f676f4a12151766f289b4d0c3a7
 			//move = getMove(board);
 
 			if (firstMove == false) {
@@ -298,10 +294,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			}
 			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
-<<<<<<< HEAD
-=======
-
->>>>>>> 679a1c3da7550f676f4a12151766f289b4d0c3a7
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			std::cout << "Enter first letter of one of the following commands (C or F);";
@@ -315,7 +307,14 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				updateBoard(board, move);
 			}
 			else if (decision == 'c' || decision == 'C') {
-				std::cout << "chat" << endl;
+				std::string input;
+				std::string comment = "C";
+
+				std::cout << "What is your name? ";
+				std::getline(std::cin, input);
+				std::cout << input;
+
+				
 			}
 
 			else if (decision == 'f' || decision == 'F') {
