@@ -286,6 +286,8 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	Move move;
 	bool myMove;
 	int firstMove = true;
+	char decision = 'c';
+	char* comment = new char[MAX_SEND_BUF - 1];
 
 	if (localPlayer == PLAYER1) {
 		char opponentBuff[MAX_RECV_BUF - 1];
@@ -306,11 +308,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	while (winner == NULL) {
 		if (myMove) {
 			// Get my move & display board
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 0604239a81eee339d1e30e6e61bb384327fc23d0
 			//move = getMove(board);
 
 			if (firstMove == false) {
@@ -318,37 +316,40 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			}
 			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 0604239a81eee339d1e30e6e61bb384327fc23d0
 			displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
-			std::cout << "Enter first letter of one of the following commands (C or F);";
+			while (decision == 'c' || decision == 'C') {
+				std::cout << "Enter first letter of one of the following commands (C or F);";
 				std::cout << " or enter a number to make a move." << endl;
 				std::cout << "Command (Chat, Forfeit, #)?";
-			char decision;
-			cin >> decision;
-			//moveOptions(decision, move, board);
-			if (decision >= '1' && decision <= '9') {
-				move = getMove(board);
-				updateBoard(board, move);
-			}
-			else if (decision == 'c' || decision == 'C') {
-				std::string input;
-				std::string comment = "C";
 
-				std::cout << "What is your name? ";
-				std::getline(std::cin, input);
-				std::cout << input;
+				cin >> decision;
 
-				
-			}
+				//moveOptions(decision, move, board);
+				if (decision >= '1' && decision <= '9') {
+					move = getMove(board);
+					updateBoard(board, move);
+				}
+				else if (decision == 'c' || decision == 'C') {
+					string input;
+					string commentStr = "C";
 
-			else if (decision == 'f' || decision == 'F') {
-			std:cout << "forfeit" << endl;
+
+					std::cout << "What is your message? ";
+					cin.ignore();
+					getline(cin, input);
+
+					commentStr.append(input);
+					strcpy(comment, commentStr.c_str());
+
+					UDP_send(s, comment, strlen(comment) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+				}
+				else if (decision == 'f' || decision == 'F') {
+				std:cout << "forfeit" << endl;
+				}
 			}
+			
 			myMove = false;
 			firstMove = false;
 
@@ -362,7 +363,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 		
 			//sprintf_s(moveString, "%d\0", move);
 			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
-			UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+			//UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
 
 		}
@@ -384,7 +385,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 				if (opponentBuff[0] == 'C')
 				{
-					//It is a chat datagram.
+					cout << "(CHAT MESSAGE from " << serverName << "): " << endl << "  " << opponentBuff << endl;
 				}
 				else if (opponentBuff[0] == 'F')
 				{
@@ -431,9 +432,9 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					std::cout << "i'm sorry.  you lost" << std::endl;
 				}
 
-				return winner;
+				//return winner;
 
-				//return true;
+				return true;
 			}
 		}
 	}
