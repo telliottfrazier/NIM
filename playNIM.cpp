@@ -325,6 +325,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	}
 	else {
 		initializeBoard(board);
+		displayBoard(board);
 		char sendBoard[MAX_SEND_BUF - 1];
 		encodeBoard(board, sendBoard);
 		UDP_send(s, sendBoard, strlen(sendBoard) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
