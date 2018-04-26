@@ -361,7 +361,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					string input;
 					string commentStr = "C";
 
-
 					std::cout << "What is your message? ";
 					cin.ignore();
 					getline(cin, input);
