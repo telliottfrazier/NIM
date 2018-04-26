@@ -325,6 +325,9 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	}
 	else {
 		initializeBoard(board);
+		char sendBoard[MAX_SEND_BUF - 1];
+		encodeBoard(board, sendBoard);
+		UDP_send(s, sendBoard, strlen(sendBoard) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 		std::cout << "You go second. " << std::endl;
 		opponent = PLAYER1;
 		myMove = false;
@@ -384,7 +387,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 		
 			//sprintf_s(moveString, "%d\0", move);
 			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
-			//UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+			UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
 
 		}
