@@ -426,35 +426,35 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					parseMove(opponentBuff, move);						// Accept and parse opponent move
 				}
 					
-
+				updateBoard(board, move);
 			
 			
-				if (!updateBoard(board, move))		
-				{
-					winner = ABORT;
-					std::cout << "YOU WON! Opponent has made an invalid move." << endl;			// opponents move is invalid based on game layout
-				}
+				//if (!updateBoard(board, move))		
+				//{
+				//	winner = ABORT;
+				//	std::cout << "YOU WON! Opponent has made an invalid move." << endl;			// opponents move is invalid based on game layout
+				//}
 
-				if (winner == ABORT) {
-					std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
-				}
-				else {
-					winner = checkEndgame(board);
-					if (winner != -1)
-					{
-						//Whoever just moved loses.
-						if (myMove)
-							winner = opponent;
-						else
-							winner = localPlayer;
-					}
-				}
+				//if (winner == ABORT) {
+				//	std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
+				//}
+				//else {
+				//	winner = checkEndgame(board);
+				//	if (winner != -1)
+				//	{
+				//		//Whoever just moved loses.
+				//		if (myMove)
+				//			winner = opponent;
+				//		else
+				//			winner = localPlayer;
+				//	}
+				//}
 				myMove = !myMove;
 
-				if (winner == localPlayer)
+				/*if (winner == localPlayer)
 					std::cout << "you win!" << std::endl;
 				else if (winner == opponent)
-					std::cout << "i'm sorry.  you lost" << std::endl;
+					std::cout << "i'm sorry.  you lost" << std::endl;*/
 				
 				}
 
