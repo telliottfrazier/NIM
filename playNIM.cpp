@@ -345,14 +345,13 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			//displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			while (decision == 'c' || decision == 'C') {
-				std::cout << "Enter first letter of one of the following commands (C or F);";
-				std::cout << " or enter a number to make a move." << endl;
-				std::cout << "Command (Chat, Forfeit, 1-9)?";
+				std::cout << "Enter first letter of one of the following commands (C, F, R)" << std::endl;
+				std::cout << "Command (Chat, Forfeit, Remove-rocks)?";
 
 				cin >> decision;
 
 				//moveOptions(decision, move, board);
-				if (decision >= '1' && decision <= '9') {
+				if (decision == 'r' || decision == 'R') {
 					move = getMove(board);
 					updateBoard(board, move);
 					displayBoard(board);
