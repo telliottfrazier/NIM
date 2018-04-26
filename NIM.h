@@ -19,7 +19,7 @@ const int MAX_SERVERS = 100;
 const int MAX_NAME = 100;
 const int PLAYER1 = 1;
 const int PLAYER2 = 2;
-const int ABORT = -1;
+const int ABORT = -2;
 
 struct ServerStruct {
 	std::string name;

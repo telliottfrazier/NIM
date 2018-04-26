@@ -150,14 +150,14 @@ bool updateBoard(int board[], Move move)
 //Checks to see if there are no rocks left on the board.
 //If there are no rocks remaining then it returns false,
 //	the game is over, and the last person who moved loses.
-bool checkEndgame(int board[19])
+int checkEndgame(int board[19])
 {
-	bool rocksRemain = false;
+	int rocksRemain = -1;
 
-	for (int i = 0; i < board[0] && !rocksRemain; ++i)
+	for (int i = 0; i < board[0] && rocksRemain != 1; ++i)
 	{
 		if (board[i] > 0)
-			rocksRemain = true;
+			rocksRemain = 1;
 	}
 
 	
@@ -307,7 +307,7 @@ Move getMove(int board[19])
 
 int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string remotePort, int localPlayer) {
 	int board[19];
-	int winner = NULL;
+	int winner = -1;
 	int opponent;
 	Move move;
 	bool myMove;
@@ -317,6 +317,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 		char opponentBuff[MAX_RECV_BUF - 1];
 		UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 		parseBoard(opponentBuff, board);
+		displayBoard(board);
 		opponent = PLAYER2;
 		myMove = true;
 	}
@@ -329,18 +330,12 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 	
 
-	while (winner == NULL) {
+	while (winner == -1) {
 		if (myMove) {
 			// Get my move & display board
 			//move = getMove(board);
-
-			if (firstMove == false) {
-				std::cout << "Board after your move:" << std::endl;
-			}
-			//std::cout << "Board after your move:" << std::endl;
 			//updateBoard(board, move);
-
-			displayBoard(board);
+			//displayBoard(board);
 			std::cout << "Your turn. " << std::endl;
 			std::cout << "Enter first letter of one of the following commands (C or F);";
 				std::cout << " or enter a number to make a move." << endl;
@@ -375,6 +370,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 			char moveString[MAX_SEND_BUF - 1];
 			//TODO: encode new move to be sent as a char array in UDP_SEND
+			encodeMove(move, moveString);
 
 		
 			//sprintf_s(moveString, "%d\0", move);
@@ -398,7 +394,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
-
 				if (opponentBuff[0] == 'C')
 				{
 					//It is a chat datagram.
@@ -414,8 +409,9 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					std::cout << "YOU WON! Opponent has made in invalid move." << endl;
 				}
 				else
+				{
 					parseMove(opponentBuff, move);						// Accept and parse opponent move
-				
+				}
 					
 
 			
@@ -431,7 +427,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				}
 				else {
 					winner = checkEndgame(board);
-					if (winner)
+					if (winner != -1)
 					{
 						//Whoever just moved loses.
 						if (myMove)
@@ -446,6 +442,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					std::cout << "you win!" << std::endl;
 				else if (winner == opponent)
 					std::cout << "i'm sorry.  you lost" << std::endl;
+				
 				}
 
 				return winner;
