@@ -152,12 +152,12 @@ bool updateBoard(int board[], Move move)
 //	the game is over, and the last person who moved loses.
 int checkEndgame(int board[19])
 {
-	int rocksRemain = -1;
+	int rocksRemain = 1;
 
-	for (int i = 0; i < board[0] && rocksRemain != 1; ++i)
+	for (int i = 1; i < board[0] && rocksRemain != 1; ++i)
 	{
 		if (board[i] > 0)
-			rocksRemain = 1;
+			rocksRemain = -1;
 	}
 
 	
@@ -343,7 +343,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			while (decision == 'c' || decision == 'C') {
 				std::cout << "Enter first letter of one of the following commands (C or F);";
 				std::cout << " or enter a number to make a move." << endl;
-				std::cout << "Command (Chat, Forfeit, #)?";
+				std::cout << "Command (Chat, Forfeit, 1-9)?";
 
 				cin >> decision;
 
@@ -384,7 +384,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 		
 			//sprintf_s(moveString, "%d\0", move);
 			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
-			//UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+			UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 
 
 		}
@@ -454,9 +454,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				
 				}
 
-				//return winner;
-
-				return true;
+				return winner;
 			}
 		}
 	}
