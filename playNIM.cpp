@@ -154,7 +154,7 @@ int checkEndgame(int board[19])
 {
 	int rocksRemain = 1;
 
-	for (int i = 1; i < board[0] && rocksRemain != 1; ++i)
+	for (int i = 1; i <= board[0]; ++i)
 	{
 		if (board[i] > 0)
 			rocksRemain = -1;
@@ -312,14 +312,12 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 	Move move;
 	bool myMove;
 	int firstMove = true;
-	char decision = 'c';
 	char* comment = new char[MAX_SEND_BUF - 1];
 
 	if (localPlayer == PLAYER1) {
 		char opponentBuff[MAX_RECV_BUF - 1];
 		UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
 		parseBoard(opponentBuff, board);
-		displayBoard(board);
 		opponent = PLAYER2;
 		myMove = true;
 	}
@@ -338,6 +336,8 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 
 	while (winner == -1) {
 		if (myMove) {
+			char decision = 'c';
+			displayBoard(board);
 			// Get my move & display board
 
 			//move = getMove(board);
@@ -355,6 +355,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				if (decision >= '1' && decision <= '9') {
 					move = getMove(board);
 					updateBoard(board, move);
+					displayBoard(board);
 				}
 				else if (decision == 'c' || decision == 'C') {
 					string input;
@@ -374,7 +375,6 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				}
 			}
 			
-			myMove = false;
 			firstMove = false;
 
 
@@ -389,6 +389,24 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 			//sprintf_s(moveString, "%d\0", move);
 			//_itoa_s(move, moveString, MAX_SEND_BUF - 1, 10);
 			UDP_send(s, moveString, strlen(moveString) + 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+
+			winner = checkEndgame(board);
+			if (winner != -1)
+			{
+				//Whoever just moved loses.
+				if (myMove)
+					winner = localPlayer;
+				else
+					winner = opponent;
+			}
+
+
+			if (winner == localPlayer)
+				std::cout << "you win!" << std::endl;
+			else if (winner == opponent)
+				std::cout << "i'm sorry.  you lost" << std::endl;
+
+			myMove = false;
 
 
 		}
@@ -406,6 +424,7 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 				char opponentBuff[MAX_RECV_BUF - 1];
 
 				UDP_recv(s, opponentBuff, MAX_RECV_BUF - 1, (char*)remoteIP.c_str(), (char*)remotePort.c_str());
+
 
 				if (opponentBuff[0] == 'C')
 				{
@@ -426,39 +445,37 @@ int playNim(SOCKET s, std::string serverName, std::string remoteIP, std::string 
 					parseMove(opponentBuff, move);						// Accept and parse opponent move
 				}
 					
-				updateBoard(board, move);
+				bool validMove = updateBoard(board, move);
+				//displayBoard(board);		
 			
-			
-				//if (!updateBoard(board, move))		
-				//{
-				//	winner = ABORT;
-				//	std::cout << "YOU WON! Opponent has made an invalid move." << endl;			// opponents move is invalid based on game layout
-				//}
-
-				//if (winner == ABORT) {
-				//	std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
-				//}
-				//else {
-				//	winner = checkEndgame(board);
-				//	if (winner != -1)
-				//	{
-				//		//Whoever just moved loses.
-				//		if (myMove)
-				//			winner = opponent;
-				//		else
-				//			winner = localPlayer;
-				//	}
-				//}
-				myMove = !myMove;
-
-				/*if (winner == localPlayer)
-					std::cout << "you win!" << std::endl;
-				else if (winner == opponent)
-					std::cout << "i'm sorry.  you lost" << std::endl;*/
-				
+				if (!validMove)		
+				{
+					winner = ABORT;
+					std::cout << "YOU WON! Opponent has made an invalid move." << endl;			// opponents move is invalid based on game layout
 				}
 
-				return winner;
+				if (winner == ABORT) {
+					std::cout << timestamp() << " - No response from opponent.  Aborting the game..." << std::endl;
+				}
+				winner = checkEndgame(board);
+				if (winner != -1)
+				{
+					//Whoever just moved loses.
+					if (myMove)
+						winner = localPlayer;
+					else
+						winner = opponent;
+				}
+				
+
+				if (winner == localPlayer)
+					std::cout << "you win!" << std::endl;
+				else if (winner == opponent)
+					std::cout << "i'm sorry.  you lost" << std::endl;
+				
+				}
+				myMove = true;
 			}
 		}
+		return winner;
 	}
