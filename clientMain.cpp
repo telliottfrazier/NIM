@@ -88,29 +88,6 @@ int clientMain(int argc, char *argv[], std::string playerName)
 				// Play the game.  You are the first player
 				int winner = playNim(s, serverName, host, port, PLAYER1);
 			}
-			else
-			{
-				/*
-				char choiceStr[80], newline;
-				int choice = 0;
-				const int QUIT2 = 2;
-				do {
-					std::cout << std::endl << std::endl << std::endl;
-					std::cout << "Choose an option:" << std::endl;
-					std::cout << "   1 - Challenge someone else" << std::endl;
-					std::cout << "   2 - Quit" << std::endl;
-					std::cout << "Enter 1 or 2: ";
-					std::cin >> choiceStr; std::cin.get(newline);
-					choice = atoi(choiceStr);
-
-					switch (choice) {
-					case 1: clientMain(argc, argv, playerName); break;	// Call the client main function
-					case QUIT2: QUIT = 3; break;
-					default: std::cout << std::endl << "Please enter either a digit of 1 or 2." << std::endl;
-					}
-				} while (choice != QUIT2);
-				*/
-			}
 			
 		}
 	}
